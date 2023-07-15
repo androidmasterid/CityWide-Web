@@ -1,0 +1,27 @@
+export const ROOT_ROUTE = {
+  LOGIN: "/login",
+  DASHBOARD: "/dashboard",
+  BOOKINGS: "/bookings",
+  DRIVERS: "/drivers",
+  ASSIGN_A_RIDE: "/assign-ride",
+  SETTINGS: "/settings",
+  MASTER_DATA: "/data",
+  USERS: "/users",
+  ROLE: "/role",
+};
+
+export const SIDEBAR_KEYS = {
+  DASHBOARD: ROOT_ROUTE.DASHBOARD,
+  BOOKINGS: ROOT_ROUTE.BOOKINGS,
+  USERS: ROOT_ROUTE.USERS,
+  DRIVERS: ROOT_ROUTE.DRIVERS,
+  ASSIGN_A_RIDE: ROOT_ROUTE.ASSIGN_A_RIDE,
+  SETTINGS: ROOT_ROUTE.SETTINGS,
+  MASTER_DATA: ROOT_ROUTE.MASTER_DATA,
+  ROLE: ROOT_ROUTE.ROLE,
+  AJAY: "4",
+  JOHN: "5",
+  TEAM: "6",
+  TEAM1: "7",
+  TEAM2: "8",
+};

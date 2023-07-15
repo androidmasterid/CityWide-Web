@@ -1,19 +1,20 @@
-import 'react-app-polyfill/stable'
-import 'core-js'
-import React from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App'
-import reportWebVitals from './reportWebVitals'
-import { Provider } from 'react-redux'
-import store from './store'
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-)
+import "./styles/index.scss";
+import App from "./App";
+import { ConfigProvider } from "antd";
+import { defaultTheme } from "./themes/default.theme";
+import { BrowserRouter } from "react-router-dom";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals()
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <ConfigProvider theme={defaultTheme}>
+        <App />
+      </ConfigProvider>
+    </BrowserRouter>
+  </React.StrictMode>
+);

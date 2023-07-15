@@ -1,38 +1,66 @@
-import React, { Component, Suspense } from 'react'
-import { HashRouter, Route, Routes } from 'react-router-dom'
-import './scss/style.scss'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Suspense, lazy, useEffect, useState } from "react";
+import { useLocation, useNavigate, useRoutes } from "react-router-dom";
+import { Spin } from "antd";
 
-const loading = (
-  <div className="pt-3 text-center">
-    <div className="sk-spinner sk-spinner-pulse"></div>
-  </div>
-)
+import AppSidebar from "./layout/AppSidebar";
+import AppHeader from "./layout/AppHeader";
+import { useIsLoggedIn } from "./stores/useIsLoggedIn";
+import { ROOT_ROUTE } from "./constants";
 
-// Containers
-const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Login = lazy(() => import("./pages/UnAuth/Login"));
 
-// Pages
-const Login = React.lazy(() => import('./views/pages/login/Login'))
-const Register = React.lazy(() => import('./views/pages/register/Register'))
-const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
-const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
+const getRouteObject = (path, element, children = []) => {
+  return {
+    path,
+    element,
+    children,
+  };
+};
 
-class App extends Component {
-  render() {
-    return (
-      <HashRouter>
-        <Suspense fallback={loading}>
-          <Routes>
-            <Route exact path="/login" name="Login Page" element={<Login />} />
-            <Route exact path="/register" name="Register Page" element={<Register />} />
-            <Route exact path="/404" name="Page 404" element={<Page404 />} />
-            <Route exact path="/500" name="Page 500" element={<Page500 />} />
-            <Route path="*" name="Home" element={<DefaultLayout />} />
-          </Routes>
-        </Suspense>
-      </HashRouter>
-    )
-  }
+const AUTHENTICATED_ROUTES = [
+  getRouteObject(ROOT_ROUTE.DASHBOARD, <Dashboard />),
+];
+
+const UNAUTHENTICATED_ROUTES = [getRouteObject(ROOT_ROUTE.LOGIN, <Login />)];
+
+function App() {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const authRoutes = useRoutes(AUTHENTICATED_ROUTES);
+  const unAuthRoutes = useRoutes(UNAUTHENTICATED_ROUTES);
+
+  const { isLoggedIn } = useIsLoggedIn();
+
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate(ROOT_ROUTE.LOGIN);
+    }
+    if ((pathname === ROOT_ROUTE.LOGIN || pathname === "/") && isLoggedIn) {
+      navigate(ROOT_ROUTE.DASHBOARD, { replace: true });
+    }
+  }, [isLoggedIn, pathname]);
+
+  return (
+    <div className="main-layout">
+      <Suspense fallback={<Spin size="large" />}>
+        {isLoggedIn ? (
+          <>
+            <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+            <div className="content-area">
+              <AppSidebar collapsed={collapsed} />
+              <div className="routes-area">{authRoutes}</div>
+            </div>
+          </>
+        ) : (
+          unAuthRoutes
+        )}
+      </Suspense>
+    </div>
+  );
 }
 
-export default App
+export default App;
