@@ -6,6 +6,7 @@ const Dashboard = () => {
     <div className="dashboard">
       {/* Total record cards */}
       <RecordStats />
+      <div className="mt-3 fw-bold">All online drivers</div>
       {/* TODO: Map component */}
       {/* Active driver list */}
       <ActiveDriversList />

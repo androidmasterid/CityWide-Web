@@ -64,6 +64,7 @@ code {
   }
 
   .routes-area {
+    position: relative;
     overflow: auto;
     width: 100%;
     padding: 1rem;
@@ -90,4 +91,35 @@ code {
       }
     }
   }
+}
+
+.top-bar {
+  width: calc(100% + 2rem);
+  margin-bottom: 1rem;
+  margin-top: -1rem;
+  margin-left: -1rem;
+  height: max-content;
+  padding: 1rem 1.5rem;
+  background-color: #fff;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: max-content;
+  padding: 1rem 1.5rem;
+  background-color: #fff;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card {
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  width: 100%;
+  height: auto;
+  border: none;
 }

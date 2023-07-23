@@ -27,9 +27,9 @@ function getItem(label, key, icon, children) {
 
 const items = [
   getItem("Dashboard", SIDEBAR_KEYS.DASHBOARD, <PieChartOutlined />),
-  getItem("Bookings", SIDEBAR_KEYS.BOOKINGS, <DesktopOutlined />, [
-    getItem("Booking 1", SIDEBAR_KEYS.BOOKINGS),
-    getItem("Booking 2", SIDEBAR_KEYS.BOOKINGS),
+  getItem("Bookings", SIDEBAR_KEYS.DRIVERS_BOOKINGS, <DesktopOutlined />, [
+    getItem("Driver Bookings", SIDEBAR_KEYS.DRIVERS_BOOKINGS),
+    getItem("User Bookings", SIDEBAR_KEYS.USERS_BOOKINGS),
   ]),
   getItem("Drivers", SIDEBAR_KEYS.DRIVERS, <CarOutlined />),
   getItem("User", SIDEBAR_KEYS.USERS, <TeamOutlined />),
@@ -48,7 +48,8 @@ const items = [
 
 const SIDEBAR_NAVIGATIONS = [
   SIDEBAR_KEYS.DASHBOARD,
-  SIDEBAR_KEYS.BOOKINGS,
+  SIDEBAR_KEYS.DRIVERS_BOOKINGS,
+  SIDEBAR_KEYS.USERS_BOOKINGS,
   SIDEBAR_KEYS.USERS,
   SIDEBAR_KEYS.DRIVERS,
   SIDEBAR_KEYS.ASSIGN_A_RIDE,
@@ -89,9 +90,9 @@ const AppSidebar = ({ collapsed }) => {
           items={items}
           selectedKeys={activeTab}
           defaultSelectedKeys={SIDEBAR_KEYS.DASHBOARD}
+          onClick={(e) => navigate(e.key)}
           onSelect={(e) => {
             setActiveTab(e.selectedKeys);
-            console.log(e);
             navigate(e.key);
           }}
         />

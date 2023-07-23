@@ -5,17 +5,22 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 import Logo from "../../assets/icons/logo";
 import { useIsLoggedIn } from "../../stores/useIsLoggedIn";
+import { useLogin } from "../../services/LoginService";
 
 const Login = () => {
   const [loginDetails, setLoginDetails] = useState({ email: "", password: "" });
 
   const navigate = useNavigate();
+  const { mutateAsync: triggerLogin, isLoading } = useLogin(loginDetails);
+
+  const handleLogin = () => {
+    triggerLogin(loginDetails).then((res) => onFinish(res));
+  };
 
   const { setIsLoggedIn } = useIsLoggedIn();
 
   const onFinish = (values) => {
-    // TODO: login api integrate
-    localStorage.setItem("token", "test_login");
+    localStorage.setItem("token", values.data.data.token);
     setIsLoggedIn(true);
     navigate("/");
   };
@@ -36,7 +41,7 @@ const Login = () => {
         <div className="inner-right shadow-lg">
           <Form
             className="login-form"
-            onFinish={onFinish}
+            // onFinish={onFinish}
             initialValues={{
               remember: true,
             }}
@@ -94,6 +99,8 @@ const Login = () => {
                 htmlType="submit"
                 className="login-form-button"
                 disabled={!loginDetails.email || !loginDetails.password}
+                onClick={handleLogin}
+                loading={isLoading}
               >
                 Log in
               </Button>

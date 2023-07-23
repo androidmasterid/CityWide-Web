@@ -1,4 +1,6 @@
-import { Table, Tag } from "antd";
+import { Button, Table, Tag } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 import { useGetDriversList } from "../../services/DriverService";
 import { useMemo } from "react";
 
@@ -7,16 +9,11 @@ const STATUS = {
   OFFLINE: false,
 };
 
-const ActiveDriversList = () => {
+const Drivers = () => {
   const { data: driversListData, isLoading } = useGetDriversList({});
   const data = useMemo(
     () => driversListData?.data?.data?.driver,
     [driversListData]
-  );
-
-  const filteredData = useMemo(
-    () => data?.filter((ele) => ele.status === true),
-    [data]
   );
 
   const columns = [
@@ -25,7 +22,11 @@ const ActiveDriversList = () => {
       dataIndex: "userName",
       key: "userName",
       width: "14%",
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => (
+        <Link to={`/drivers/${record._id}`}>
+          <Button type="link">{text}</Button>
+        </Link>
+      ),
     },
     {
       width: "10%",
@@ -76,9 +77,11 @@ const ActiveDriversList = () => {
       render: () => {
         return (
           <div className="d-flex">
+            <Tag color="green">Verify Driver</Tag>
             <Tag color="blue" className="ms-1">
               Assign Ride
             </Tag>
+            <DeleteOutlined style={{ cursor: "pointer" }} />
           </div>
         );
       },
@@ -87,9 +90,10 @@ const ActiveDriversList = () => {
 
   return (
     <div className="mt-3">
+      <div className="mb-3 fw-bold">All Drivers</div>
       <Table
         columns={columns}
-        dataSource={filteredData}
+        dataSource={data}
         scroll={{ y: 400 }}
         loading={isLoading}
       />
@@ -97,4 +101,4 @@ const ActiveDriversList = () => {
   );
 };
 
-export default ActiveDriversList;
+export default Drivers;
