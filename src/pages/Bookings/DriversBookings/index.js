@@ -12,43 +12,39 @@ const DriversBookings = () => {
   const data = useMemo(() => bookingList?.data?.data?.booking, [bookingList]);
   const columns = [
     {
-      title: "Name",
+      title: "Driver Name",
       dataIndex: "driverDetail",
       key: "driverDetail",
       width: "14%",
       render: (_, record) => {
-        return <div>{record.driverDetail.alias}</div>;
+        return <div>{record.driverDetail?.userName}</div>;
       },
+    },
+    {
+      title: "Rider Name",
+      dataIndex: "userDetail",
+      key: "userDetail",
+      width: "14%",
+      render: (_, record) => {
+        return <div>{record.userDetail?.userName}</div>;
+      },
+    },
+    {
+      ellipsis: true,
+      width: "17%",
+      title: "Current Address",
+      dataIndex: "currentAddress",
+      key: "currentAddress",
+    },
+    {
+      ellipsis: true,
+      width: "17%",
+      title: "Destination Address",
+      dataIndex: "destinationAddress",
+      key: "destinationAddress",
     },
     {
       width: "10%",
-      title: "From location",
-      dataIndex: "location",
-      key: "location",
-      render: (_, record) => {
-        return (
-          <div>
-            {record.location.longitude}, {record.location.latitude}
-          </div>
-        );
-      },
-    },
-    {
-      width: "17%",
-      title: "To location",
-      dataIndex: "destinationLocation",
-      key: "destinationLocation",
-      render: (_, record) => {
-        return (
-          <div>
-            {record.destinationLocation.longitude},{" "}
-            {record.destinationLocation.latitude}
-          </div>
-        );
-      },
-    },
-    {
-      width: "17%",
       title: "Status",
       dataIndex: "status",
       key: "status",

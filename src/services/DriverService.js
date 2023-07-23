@@ -64,7 +64,7 @@ export const useUpdateDriver = (driverId, config = {}) => {
 };
 
 const verifyDriver = async (data) => {
-  return await HTTP.patch(Urls.VERIFY_DRIVER, data);
+  return await HTTP.put(Urls.VERIFY_DRIVER, data);
 };
 
 export const useVerifyDriver = (config = {}) => {
@@ -72,7 +72,27 @@ export const useVerifyDriver = (config = {}) => {
   return useMutation((data) => verifyDriver(data), {
     ...config,
     onSuccess: () => {
-      queryClient.invalidateQueries(driverKeys.create(), {
+      queryClient.invalidateQueries(driverKeys.list({}), {
+        exact: false,
+        refetchInactive: true,
+      });
+    },
+  });
+};
+
+const deleteDriver = async (driverId, data) => {
+  return await HTTP.delete(
+    interpolateUrl(Urls.DELETE_DRIVER, { driverId }),
+    data
+  );
+};
+
+export const useDeleteDriver = (config = {}) => {
+  const queryClient = useQueryClient();
+  return useMutation((driverId, data) => deleteDriver(driverId, data), {
+    ...config,
+    onSuccess: () => {
+      queryClient.invalidateQueries(driverKeys.list(), {
         exact: false,
         refetchInactive: true,
       });

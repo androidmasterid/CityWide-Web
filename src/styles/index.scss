@@ -54,6 +54,10 @@ code {
     .ant-menu-item:hover,
     .ant-menu-submenu-title:hover {
       background-color: $color-primary !important;
+      color: #fff;
+    }
+    .ant-menu-submenu-title {
+      color: black;
     }
   }
 

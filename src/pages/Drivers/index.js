@@ -1,7 +1,11 @@
 import { Button, Table, Tag } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useGetDriversList } from "../../services/DriverService";
+import {
+  useDeleteDriver,
+  useGetDriversList,
+  useVerifyDriver,
+} from "../../services/DriverService";
 import { useMemo } from "react";
 
 const STATUS = {
@@ -10,7 +14,11 @@ const STATUS = {
 };
 
 const Drivers = () => {
-  const { data: driversListData, isLoading } = useGetDriversList({});
+  const { data: driversListData, isFetching } = useGetDriversList({});
+  const { mutateAsync: deleteDriver, isLoading } = useDeleteDriver();
+  const { mutateAsync: verifyDriver, isLoading: isVerifyDriverLoading } =
+    useVerifyDriver();
+
   const data = useMemo(
     () => driversListData?.data?.data?.driver,
     [driversListData]
@@ -73,15 +81,29 @@ const Drivers = () => {
     {
       width: "18%",
       title: "",
+      align: "right",
       key: "action",
-      render: () => {
+      render: (_, record) => {
         return (
-          <div className="d-flex">
-            <Tag color="green">Verify Driver</Tag>
+          <div className="d-flex align-items-center justify-content-end">
+            {!record.isVerified && (
+              <Button
+                type="link"
+                onClick={() =>
+                  verifyDriver({ driverId: record._id, isVerified: true })
+                }
+              >
+                Verify Driver
+              </Button>
+            )}
             <Tag color="blue" className="ms-1">
               Assign Ride
             </Tag>
-            <DeleteOutlined style={{ cursor: "pointer" }} />
+            <DeleteOutlined
+              className="me-2"
+              style={{ cursor: "pointer" }}
+              onClick={() => deleteDriver(record._id, { isDelete: true })}
+            />
           </div>
         );
       },
@@ -95,7 +117,7 @@ const Drivers = () => {
         columns={columns}
         dataSource={data}
         scroll={{ y: 400 }}
-        loading={isLoading}
+        loading={isLoading || isFetching || isVerifyDriverLoading}
       />
     </div>
   );

@@ -58,3 +58,20 @@ export const useUpdateUser = (userId, config = {}) => {
     },
   });
 };
+
+const deleteUser = async (userId, data) => {
+  return await HTTP.delete(interpolateUrl(Urls.DELETE_USER, { userId }), data);
+};
+
+export const useDeleteUser = (config = {}) => {
+  const queryClient = useQueryClient();
+  return useMutation((userId, data) => deleteUser(userId, data), {
+    ...config,
+    onSuccess: () => {
+      queryClient.invalidateQueries(userKeys.list(), {
+        exact: false,
+        refetchInactive: true,
+      });
+    },
+  });
+};

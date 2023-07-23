@@ -1,5 +1,8 @@
-import { Table, Tag } from "antd";
-import { useGetDriversList } from "../../services/DriverService";
+import { Button, Table, Tag } from "antd";
+import {
+  useGetDriversList,
+  useVerifyDriver,
+} from "../../services/DriverService";
 import { useMemo } from "react";
 
 const STATUS = {
@@ -8,7 +11,10 @@ const STATUS = {
 };
 
 const ActiveDriversList = () => {
-  const { data: driversListData, isLoading } = useGetDriversList({});
+  const { data: driversListData, isFetching } = useGetDriversList({});
+  const { mutateAsync: verifyDriver, isLoading: isVerifyDriverLoading } =
+    useVerifyDriver();
+
   const data = useMemo(
     () => driversListData?.data?.data?.driver,
     [driversListData]
@@ -69,20 +75,25 @@ const ActiveDriversList = () => {
         );
       },
     },
-    {
-      width: "18%",
-      title: "",
-      key: "action",
-      render: () => {
-        return (
-          <div className="d-flex">
-            <Tag color="blue" className="ms-1">
-              Assign Ride
-            </Tag>
-          </div>
-        );
-      },
-    },
+    // {
+    //   width: "18%",
+    //   title: "",
+    //   key: "action",
+    //   render: (_, record) => {
+    //     return (
+    //       !record.isVerified && (
+    //         <div
+    //           className="d-flex"
+    //           onClick={() =>
+    //             verifyDriver({ driverId: record._id, isVerified: true })
+    //           }
+    //         >
+    //           <Button type="link">Verify Ride</Button>
+    //         </div>
+    //       )
+    //     );
+    //   },
+    // },
   ];
 
   return (
@@ -91,7 +102,7 @@ const ActiveDriversList = () => {
         columns={columns}
         dataSource={filteredData}
         scroll={{ y: 400 }}
-        loading={isLoading}
+        loading={isFetching || isVerifyDriverLoading}
       />
     </div>
   );

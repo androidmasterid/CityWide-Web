@@ -33,17 +33,17 @@ const items = [
   ]),
   getItem("Drivers", SIDEBAR_KEYS.DRIVERS, <CarOutlined />),
   getItem("User", SIDEBAR_KEYS.USERS, <TeamOutlined />),
-  getItem(
-    "Assign a Ride",
-    SIDEBAR_KEYS.ASSIGN_A_RIDE,
-    <DeliveredProcedureOutlined />
-  ),
-  getItem("Settings", SIDEBAR_KEYS.SETTINGS, <SettingOutlined />),
-  getItem("Master Data", SIDEBAR_KEYS.MASTER_DATA, <FileOutlined />, [
-    getItem("Data 1", SIDEBAR_KEYS.MASTER_DATA),
-    getItem("Data 2", SIDEBAR_KEYS.MASTER_DATA),
-  ]),
-  getItem("Role", SIDEBAR_KEYS.ROLE, <UserSwitchOutlined />),
+  // getItem(
+  //   "Assign a Ride",
+  //   SIDEBAR_KEYS.ASSIGN_A_RIDE,
+  //   <DeliveredProcedureOutlined />
+  // ),
+  // getItem("Settings", SIDEBAR_KEYS.SETTINGS, <SettingOutlined />),
+  // getItem("Master Data", SIDEBAR_KEYS.MASTER_DATA, <FileOutlined />, [
+  //   getItem("Data 1", SIDEBAR_KEYS.MASTER_DATA),
+  //   getItem("Data 2", SIDEBAR_KEYS.MASTER_DATA),
+  // ]),
+  // getItem("Role", SIDEBAR_KEYS.ROLE, <UserSwitchOutlined />),
 ];
 
 const SIDEBAR_NAVIGATIONS = [

@@ -1,20 +1,23 @@
 import axios from "axios";
 
 const BASE_URL = "https://citywide1.onrender.com/";
-const TOKEN = localStorage.getItem("token");
+const getToken = () => localStorage.getItem("token");
 
-const API = axios.create({
-  baseURL: BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${TOKEN}`,
-  },
-});
+const getAxios = () =>
+  axios.create({
+    baseURL: BASE_URL,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
 
 export const HTTP = {
-  get: (url, params) => API.get(url, { params }),
-  post: (url, data) => API.post(url, data),
-  patch: (url, data) => API.patch(url, data),
+  get: (url, params) => getAxios().get(url, { params }),
+  post: (url, data) => getAxios().post(url, data),
+  patch: (url, data) => getAxios().patch(url, data),
+  put: (url, data) => getAxios().put(url, data),
+  delete: (url, data) => getAxios().delete(url, data),
 };
 
 export const interpolateUrl = (template, params) => {

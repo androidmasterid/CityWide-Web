@@ -1,16 +1,18 @@
 import { Button, Table } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useGetUsersList } from "../../services/UserService";
+import { useDeleteUser, useGetUsersList } from "../../services/UserService";
 import { useMemo } from "react";
 
 const Users = () => {
-  const { data: userList, isLoading } = useGetUsersList();
+  const { data: userList, isFetching } = useGetUsersList();
+  const { mutateAsync: deleteUser, isLoading } = useDeleteUser();
+
   const data = useMemo(() => userList?.data?.data?.user, [userList]);
 
   const columns = [
     {
-      title: "Name",
+      title: "User Name",
       dataIndex: "userName",
       key: "userName",
       width: "14%",
@@ -21,59 +23,50 @@ const Users = () => {
       ),
     },
     {
-      width: "10%",
+      width: "16%",
       title: "Email",
       dataIndex: "email",
       key: "email",
     },
     {
-      width: "17%",
-      title: "T and C",
-      dataIndex: "isTandC",
-      key: "isTandC",
+      width: "15%",
+      title: "Mobile",
+      dataIndex: "mobile",
+      key: "mobile",
       render: (_, record) => (
-        <span>{record.isTandC === true ? <div>Yes</div> : <div>No</div>}</span>
+        <span>
+          {record.country_code} {record.mobile}
+        </span>
       ),
     },
     {
-      width: "17%",
+      width: "22%",
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
+      ellipsis: true,
+    },
+    {
+      width: "8%",
       title: "Post office",
       dataIndex: "isPostOffice",
       key: "isPostOffice",
       render: (_, record) => (
         <span>
-          {record.isPostOffice === true ? <div>Yes</div> : <div>No</div>}
+          {record.isPostOffice === true ? <div>True</div> : <div>False</div>}
         </span>
       ),
-    },
-    {
-      width: "12%",
-      title: "Post office number",
-      dataIndex: "postOfficeNumber",
-      key: "postOfficeNumber",
-      render: (_, record) => (
-        <span>
-          {record.postOfficeNumber ? (
-            <div>{record.postOfficeNumber}</div>
-          ) : (
-            <div>NA</div>
-          )}
-        </span>
-      ),
-    },
-    {
-      width: "10%",
-      title: "Gender",
-      key: "gender",
-      dataIndex: "gender",
     },
     {
       width: "5%",
       title: "",
       key: "action",
-      render: () => {
+      render: (_, record) => {
         return (
-          <div className="d-flex">
+          <div
+            className="d-flex"
+            onClick={() => deleteUser(record._id, { isDelete: true })}
+          >
             <DeleteOutlined style={{ cursor: "pointer" }} />
           </div>
         );
@@ -88,7 +81,7 @@ const Users = () => {
         columns={columns}
         dataSource={data}
         scroll={{ y: 400 }}
-        loading={isLoading}
+        loading={isLoading || isFetching}
       />
     </div>
   );
