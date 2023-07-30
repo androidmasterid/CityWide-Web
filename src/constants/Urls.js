@@ -10,4 +10,6 @@ export const Urls = {
   UPDATE_USER_DETAIL: "/admin/userUpdate/:userId",
   DELETE_USER: "/admin/deleteUser/:userId",
   BOOKING: "/admin/getBooking",
+  GET_USER_LOCATION: "/admin/getALocation",
+  ASSIGN_RIDE: "/admin/assignRide",
 };

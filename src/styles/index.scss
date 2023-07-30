@@ -127,3 +127,24 @@ code {
   height: auto;
   border: none;
 }
+
+.driver-details {
+  max-height: calc(100vh - 13.5rem);
+  overflow: auto;
+  .ant-form-item-label > label::after {
+    content: " *";
+    color: red;
+  }
+  .ant-form-item-label > label::before {
+    content: "" !important;
+  }
+  .ant-col .ant-form-item-label {
+    width: 34%;
+    display: flex;
+  }
+  .upload {
+    .ant-upload {
+      width: 100% !important;
+    }
+  }
+}

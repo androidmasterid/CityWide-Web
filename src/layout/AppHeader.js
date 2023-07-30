@@ -43,7 +43,7 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
           onClick={() => setCollapsed(!collapsed)}
           style={{ fontSize: "16px" }}
         />
-        <Logo width="120px" height="30px" className="ms-2" />
+        <Logo width="130px" height="30px" className="ms-2" />
       </div>
       <Dropdown
         menu={{ items: userItems }}

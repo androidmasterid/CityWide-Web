@@ -15,6 +15,7 @@ const userKeys = {
   create: (key) => ["users", key],
   list: (params = {}) => [...userKeys.users, params],
   detail: (userId) => [...userKeys.users, userId],
+  addUrlKey: (url, params = {}) => [...userKeys.users, url, params],
 };
 
 const fetchUsers = async (params) => {
@@ -74,4 +75,19 @@ export const useDeleteUser = (config = {}) => {
       });
     },
   });
+};
+
+const getLocation = async (params) => {
+  return await HTTP.get(Urls.GET_USER_LOCATION, params);
+};
+
+export const useGetUserLocation = (params = {}, config = {}) => {
+  return useQuery(
+    userKeys.addUrlKey(Urls.GET_USER_LOCATION, params),
+    () => getLocation(params),
+    {
+      ...DEFAULT_QUERY_CONFIG,
+      ...config,
+    }
+  );
 };

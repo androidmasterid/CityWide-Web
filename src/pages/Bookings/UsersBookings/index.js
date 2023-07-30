@@ -17,7 +17,7 @@ const DriversBookings = () => {
       key: "driverDetail",
       width: "14%",
       render: (_, record) => {
-        return <div>{record.userDetail?.userName}</div>;
+        return <div>{record.driverDetail?.userName}</div>;
       },
     },
     {

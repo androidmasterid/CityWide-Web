@@ -1,19 +1,14 @@
-import { Button, Table, Tag } from "antd";
-import {
-  useGetDriversList,
-  useVerifyDriver,
-} from "../../services/DriverService";
+import { Table, Tag } from "antd";
+import { useGetDriversList } from "../../services/DriverService";
 import { useMemo } from "react";
 
 const STATUS = {
-  ONLINE: true,
-  OFFLINE: false,
+  ONLINE: "ONLINE",
+  OFFLINE: "OFFLINE",
 };
 
 const ActiveDriversList = () => {
   const { data: driversListData, isFetching } = useGetDriversList({});
-  const { mutateAsync: verifyDriver, isLoading: isVerifyDriverLoading } =
-    useVerifyDriver();
 
   const data = useMemo(
     () => driversListData?.data?.data?.driver,
@@ -21,7 +16,7 @@ const ActiveDriversList = () => {
   );
 
   const filteredData = useMemo(
-    () => data?.filter((ele) => ele.status === true),
+    () => data?.filter((ele) => ele.status === STATUS.ONLINE),
     [data]
   );
 
@@ -102,7 +97,7 @@ const ActiveDriversList = () => {
         columns={columns}
         dataSource={filteredData}
         scroll={{ y: 400 }}
-        loading={isFetching || isVerifyDriverLoading}
+        loading={isFetching}
       />
     </div>
   );

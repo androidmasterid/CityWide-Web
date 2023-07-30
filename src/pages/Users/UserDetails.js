@@ -35,22 +35,24 @@ const UserDetails = () => {
       <div className="card">
         <Form>
           <Row className="justify-content-center">
-            <Col span={10}>
+            <Col span={12}>
               <Form.Item
                 label="Name"
                 required
                 tooltip="This is a required field"
               >
                 <Input
+                  size="large"
                   placeholder="Enter Name"
                   disabled={isEditable}
                   value={data?.userName}
                 />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={12}>
               <Form.Item label="Address" className="ms-3">
                 <Input
+                  size="large"
                   placeholder="Enter Address"
                   disabled={isEditable}
                   value={data?.address}
@@ -59,9 +61,10 @@ const UserDetails = () => {
             </Col>
           </Row>
           <Row className="justify-content-center">
-            <Col span={10}>
+            <Col span={12}>
               <Form.Item label="Email" required>
                 <Input
+                  size="large"
                   placeholder="Enter Email"
                   type="email"
                   disabled={isEditable}
@@ -69,7 +72,7 @@ const UserDetails = () => {
                 />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={12}>
               <Form.Item
                 name="phone"
                 label="Mobile"
@@ -79,6 +82,7 @@ const UserDetails = () => {
                 ]}
               >
                 <Input
+                  size="large"
                   addonBefore="+91"
                   disabled={isEditable}
                   value={data?.mobile}
@@ -87,16 +91,17 @@ const UserDetails = () => {
             </Col>
           </Row>
           <Row className="justify-content-center">
-            <Col span={10}>
+            <Col span={12}>
               <Form.Item label="Role" required>
                 <Input
+                  size="large"
                   placeholder="Enter role"
                   disabled={isEditable}
                   value={data?.role}
                 />
               </Form.Item>
             </Col>
-            <Col span={10}></Col>
+            <Col span={12}></Col>
           </Row>
         </Form>
       </div>

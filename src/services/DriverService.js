@@ -13,7 +13,7 @@ export const DEFAULT_QUERY_CONFIG = {
 const driverKeys = {
   drivers: ["drivers"],
   create: (key) => ["drivers", key],
-  list: (params = {}) => [...driverKeys.drivers, params],
+  list: (params = {}) => [...driverKeys.drivers, "list", params],
   detail: (driverId) => [...driverKeys.drivers, driverId],
 };
 
@@ -44,7 +44,7 @@ export const useGetDriverDetail = (driverId, config = {}) => {
 };
 
 const updateDriver = async (driverId, data) => {
-  return await HTTP.patch(
+  return await HTTP.put(
     interpolateUrl(Urls.UPDATE_DRIVER_DETAIL, { driverId }),
     data
   );
@@ -56,6 +56,10 @@ export const useUpdateDriver = (driverId, config = {}) => {
     ...config,
     onSuccess: () => {
       queryClient.invalidateQueries(driverKeys.detail(driverId), {
+        exact: false,
+        refetchInactive: true,
+      });
+      queryClient.invalidateQueries(driverKeys.list(), {
         exact: false,
         refetchInactive: true,
       });
@@ -97,5 +101,23 @@ export const useDeleteDriver = (config = {}) => {
         refetchInactive: true,
       });
     },
+  });
+};
+
+const assignRide = async (payload) => {
+  return await HTTP.post(Urls.ASSIGN_RIDE, payload);
+};
+
+export const useAssignRide = (config = {}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation((data) => assignRide(data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(driverKeys.list(), {
+        exact: false,
+        refetchInactive: true,
+      });
+    },
+    ...config,
   });
 };
